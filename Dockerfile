@@ -15,7 +15,7 @@ ENV LANG C.UTF-8
 ENV CITYSCAPES_DATASET=/home/FasterSeg/dataset
 
 # ==================================================================
-# tools
+# TOOLS
 # ------------------------------------------------------------------
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -39,7 +39,7 @@ RUN git clone --depth 10 https://github.com/Kitware/CMake ~/cmake && \
     make -j"$(nproc)" install
 
 # ==================================================================
-# python
+# PYTHON
 # ------------------------------------------------------------------
 
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
@@ -80,14 +80,14 @@ RUN DEBIAN_FRONTEND=noninteractive python -m pip --no-cache-dir install --upgrad
         matplotlib==3.0.0
 
 # ==================================================================
-# cityscapesScripts
+# CITYSCAPES SCRIPTS
 # ------------------------------------------------------------------
 
 RUN git clone --depth 10 https://github.com/mcordts/cityscapesScripts ~/cityscapesScripts && \
     cd ~/cityscapesScripts && pip install .
 
 # ==================================================================
-# opencv
+# OPENCV
 # ------------------------------------------------------------------
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -116,7 +116,7 @@ RUN git clone --depth 10 --branch 3.4.5 https://github.com/opencv/opencv ~/openc
 
 
 # ==================================================================
-# pytorch
+# PYTORCH
 # ------------------------------------------------------------------
 
 RUN cd /tmp && \
@@ -133,7 +133,7 @@ RUN python -m pip --no-cache-dir install --upgrade  \
         thop
 
 # ==================================================================
-# PyCUDA
+# PYCUDA
 # https://docs.nvidia.com/deeplearning/sdk/tensorrt-archived/tensorrt-515/tensorrt-install-guide/index.html#installing-pycuda
 # ------------------------------------------------------------------
 
@@ -141,7 +141,7 @@ RUN python -m pip --no-cache-dir install \
         'pycuda>=2017.1.1'
 
 # ==================================================================
-# Tensor-RT v5.1.5.0
+# TENSOR-RT v5.1.5.0
 # https://docs.nvidia.com/deeplearning/sdk/tensorrt-archived/tensorrt-515/tensorrt-install-guide/index.html
 # ------------------------------------------------------------------
 
@@ -154,13 +154,13 @@ RUN /bin/bash -c "source ~/.bashrc" && \
     python -m pip install tensorrt-5.1.5.0-cp36-none-linux_x86_64.whl
 
 # ==================================================================
-# Download FasterSeg-Repository and install Requirements
+# DOWLOAD FASTERSEG-REPOSITORY && INSTALL REQUIREMENTS
 # ------------------------------------------------------------------
 
 RUN git clone https://github.com/TAMU-VITA/FasterSeg && cd /home/FasterSeg/ && pip install -r requirements.txt && mkdir dataset
 
 # ==================================================================
-# config & cleanup
+# CONFIG & CLEANUP
 # ------------------------------------------------------------------
 
 RUN ldconfig && \
@@ -168,7 +168,7 @@ RUN ldconfig && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
-WORKDIR /home/
+WORKDIR /home/FasterSeg
 
 EXPOSE 8000 6006
 
