@@ -37,25 +37,28 @@ Highlights:
 </p>
 
 ## Prerequisites
-- Ubuntu 16.04
-- Python 3.6.8
-- CUDA 10.1 (lower versions may work but were not tested)
-- NVIDIA GPU (>= 11G graphic memory) + CuDNN v7.3
+- Ubuntu
+- CUDA supported NVIDIA GPU (>= 11G graphic memory)
 
 This repository has been tested on GTX 1080Ti. Configurations (e.g batch size, image patch size) may need to be changed on different platforms.
 
 ## Installation
+* Install [Docker and NVIDIA container runtime](https://www.celantur.com/blog/run-cuda-in-docker-on-linux/) what is needed to use a preconfigured training environment.
 * Clone this repo:
 ```bash
-git clone https://github.com/chenwydj/FasterSeg.git
-cd FasterSeg
+git clone https://github.com/Gaussianer/FasterSeg.git
 ```
-* Install dependencies:
+* Download [TensorRT](https://developer.nvidia.com/nvidia-tensorrt-5x-download) 5.1.5.0 GA for Ubuntu 16.04 and CUDA 10.1 tar package.
+* Move `TensorRT-5.1.5.0.Ubuntu-16.04.5.x86_64-gnu.cuda-10.1.cudnn7.5.tar.gz` to the previously cloned FasterSeg repository
+* Build image from the Dockerfile:
 ```bash
-pip install requirements.txt
+cd FasterSeg
+sudo docker build -t fasterseg:latest -f Dockerfile .
 ```
-* Install [PyCuda](https://wiki.tiker.net/PyCuda/Installation) which is a dependency of TensorRT.
-* Install [TensorRT](https://github.com/NVIDIA/TensorRT) (v5.1.5.0): a library for high performance inference on NVIDIA GPUs with [Python API](https://docs.nvidia.com/deeplearning/sdk/tensorrt-api/index.html#python).
+* Run the container
+```bash
+sudo nvidia-docker run --rm --gpus all -it fasterseg:latest
+```
 
 ## Usage
 * **Work flow: [pretrain the supernet](https://github.com/chenwydj/FasterSeg#11-pretrain-the-supernet) &rarr; [search the archtecture](https://github.com/chenwydj/FasterSeg#12-search-the-architecture) &rarr; [train the teacher](https://github.com/chenwydj/FasterSeg#21-train-the-teacher-network) &rarr; [train the student](https://github.com/chenwydj/FasterSeg#22-train-the-student-network-fasterseg).**
