@@ -68,13 +68,14 @@ sudo nvidia-docker run --rm --gpus all -it fasterseg:latest
 * Download your dataset and save it in ```home/FasterSeg/dataset```. For your dataset, orientate yourself on the structure of the Cityscapes dataset. In /home/FasterSeg/dataset the folders "gtFine" and "leftImg8bit" should be present. The two folders should contain another three folders: "test", "train" and "val". See [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1) from the Cityscapes dataset.
 * Prepare the annotations by using the [createTrainIdLabelImgs.py](https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/preparation/createTrainIdLabelImgs.py) 
 ```bash
+cd home/FasterSeg/dataset
 python createTrainIdLabelImgs.py
 ```
 * Put the files of image list into /home/FasterSeg/dataset. Here we need a script that creates files with the image list. This script still has to be implemented - feel free to help us :-). For the file with the image list you can orientate yourself at [files of image list](tools/datasets/cityscapes/).
 
 ### 1. Search
 ```bash
-cd search
+cd /home/FasterSeg/search
 ```
 #### 1.1 Pretrain the supernet
 We first pretrain the supernet without updating the architecture parameter for 20 epochs.
@@ -120,7 +121,7 @@ CUDA_VISIBLE_DEVICES=0 python train.py
 ### 3. Evaluation
 Here we use our pretrained FasterSeg as an example for the evaluation.
 ```bash
-cd train
+cd /home/FasterSeg/train
 ```
 * Set `C.is_eval = True` in `config_train.py`.
 * Set the name of the searched folder as `C.load_path = "fasterseg"` in `config_train.py`.
