@@ -65,10 +65,12 @@ sudo nvidia-docker run --rm --gpus all -it fasterseg:latest
 * You can monitor the whole process in the Tensorboard.
 
 ### 0. Prepare the dataset
-* Download the [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1) from the Cityscapes.
-* Prepare the annotations by using the [createTrainIdLabelImgs.py](https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/preparation/createTrainIdLabelImgs.py).
-* Put the [file of image list](tools/datasets/cityscapes/) into where you save the dataset.
-* **Remember to properly set the `C.dataset_path` in the `config` files mentioned below.**
+* Download your dataset and save it in ```home/FasterSeg/dataset```. For your dataset, orientate yourself on the structure of the Cityscapes dataset. In /home/FasterSeg/dataset the folders "gtFine" and "leftImg8bit" should be present. The two folders should contain another three folders: "test", "train" and "val". See [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1) from the Cityscapes dataset.
+* Prepare the annotations by using the [createTrainIdLabelImgs.py](https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/preparation/createTrainIdLabelImgs.py) 
+```bash
+python createTrainIdLabelImgs.py
+```
+* Put the files of image list into /home/FasterSeg/dataset. Here we need a script that creates files with the image list. This script still has to be implemented - feel free to help us :-). For the file with the image list you can orientate yourself at [files of image list](tools/datasets/cityscapes/).
 
 ### 1. Search
 ```bash
@@ -81,7 +83,7 @@ We first pretrain the supernet without updating the architecture parameter for 2
 ```bash
 CUDA_VISIBLE_DEVICES=0 python train_search.py
 ```
-* The pretrained weight will be saved in a folder like ```FasterSeg/search/search-pretrain-256x512_F12.L16_batch3-20200101-012345```.
+* The pretrained weight will be saved in a folder like ```/home/FasterSeg/search/search-pretrain-256x512_F12.L16_batch3-20200101-012345```.
 
 #### 1.2 Search the architecture
 We start the architecture searching for 30 epochs.
@@ -90,12 +92,12 @@ We start the architecture searching for 30 epochs.
 ```bash
 CUDA_VISIBLE_DEVICES=0 python train_search.py
 ```
-* The searched architecture will be saved in a folder like ```FasterSeg/search/search-224x448_F12.L16_batch2-20200102-123456```.
+* The searched architecture will be saved in a folder like ```/home/FasterSeg/search/search-224x448_F12.L16_batch2-20200102-123456```.
 * `arch_0` and `arch_1` contains architectures for teacher and student networks, respectively.
 
 ### 2. Train from scratch
-* `cd FasterSeg/train`
-* Copy the folder which contains the searched architecture into `FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`
+* `cd /home/FasterSeg/train`
+* Copy the folder which contains the searched architecture into `/home/FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`
 #### 2.1 Train the teacher network
 * Set `C.mode = "teacher"` in `config_train.py`.
 <!-- * uncomment the `## train teacher model only ##` section in `config_train.py` and comment the `## train student with KL distillation from teacher ##` section. -->
