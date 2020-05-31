@@ -5,6 +5,7 @@ from __future__ import division
 from __future__ import print_function
 
 import os.path as osp
+import os
 import sys
 import numpy as np
 from easydict import EasyDict as edict
@@ -22,12 +23,12 @@ C.this_dir = C.abs_dir.split(osp.sep)[-1]
 C.root_dir = C.abs_dir[:C.abs_dir.index(C.repo_name) + len(C.repo_name)]
 
 """Data Dir"""
-C.dataset_path = "/ssd1/chenwy/cityscapes/"
+C.dataset_path = os.environ["DATASET_PATH"]
 C.img_root_folder = C.dataset_path
 C.gt_root_folder = C.dataset_path
-C.train_source = osp.join(C.dataset_path, "cityscapes_train_fine.txt")
-C.eval_source = osp.join(C.dataset_path, "cityscapes_val_fine.txt")
-C.test_source = osp.join(C.dataset_path, "cityscapes_test.txt")
+C.train_source = osp.join(C.dataset_path, "cityscapes_train_fine.txt") # TODO
+C.eval_source = osp.join(C.dataset_path, "cityscapes_val_fine.txt") # TODO
+C.test_source = osp.join(C.dataset_path, "cityscapes_test.txt") # TODO
 
 """Path Config"""
 def add_path(path):
@@ -37,7 +38,7 @@ def add_path(path):
 add_path(osp.join(C.root_dir, 'tools'))
 
 """Image Config"""
-C.num_classes = 19
+C.num_classes = 19 # TODO
 C.background = -1
 C.image_mean = np.array([0.485, 0.456, 0.406])
 C.image_std = np.array([0.229, 0.224, 0.225])
@@ -45,8 +46,8 @@ C.down_sampling = 2 # first down_sampling then crop ......
 C.image_height = 160 # this size is after down_sampling
 C.image_width = 160*2
 C.gt_down_sampling = 8 # model's default output size without final upsampling
-C.num_train_imgs = 2975
-C.num_eval_imgs = 500
+C.num_train_imgs = 2975 # TODO
+C.num_eval_imgs = 500 # TODO
 
 """ Settings for network, this would be different for each kind of model"""
 C.bn_eps = 1e-5

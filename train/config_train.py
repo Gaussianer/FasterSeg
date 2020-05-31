@@ -5,6 +5,7 @@ from __future__ import division
 from __future__ import print_function
 
 import os.path as osp
+import os
 import sys
 import numpy as np
 from easydict import EasyDict as edict
@@ -23,13 +24,13 @@ C.root_dir = C.abs_dir[:C.abs_dir.index(C.repo_name) + len(C.repo_name)]
 C.log_dir = osp.abspath(osp.join(C.root_dir, 'log', C.this_dir))
 
 """Data Dir"""
-C.dataset_path = "/ssd1/chenwy/cityscapes/"
+C.dataset_path = os.environ["DATASET_PATH"]
 C.img_root_folder = C.dataset_path
 C.gt_root_folder = C.dataset_path
-C.train_source = osp.join(C.dataset_path, "cityscapes_train_fine.txt")
-C.train_eval_source = osp.join(C.dataset_path, "cityscapes_train_val_fine.txt")
-C.eval_source = osp.join(C.dataset_path, "cityscapes_val_fine.txt")
-C.test_source = osp.join(C.dataset_path, "cityscapes_test.txt")
+C.train_source = osp.join(C.dataset_path, "cityscapes_train_fine.txt") # TODO
+C.train_eval_source = osp.join(C.dataset_path, "cityscapes_train_val_fine.txt") # TODO
+C.eval_source = osp.join(C.dataset_path, "cityscapes_val_fine.txt") # TODO
+C.test_source = osp.join(C.dataset_path, "cityscapes_test.txt") # TODO
 
 """Path Config"""
 def add_path(path):
@@ -39,15 +40,15 @@ def add_path(path):
 add_path(osp.join(C.root_dir, 'tools'))
 
 """Image Config"""
-C.num_classes = 19
+C.num_classes = 19 # TODO
 C.background = -1
 C.image_mean = np.array([0.485, 0.456, 0.406])
 C.image_std = np.array([0.229, 0.224, 0.225])
 C.target_size = 1024
 C.down_sampling = 1 # first down_sampling then crop ......
 C.gt_down_sampling = 1
-C.num_train_imgs = 2975
-C.num_eval_imgs = 500
+C.num_train_imgs = 2975 # TODO
+C.num_eval_imgs = 500 # TODO
 
 """ Settings for network, this would be different for each kind of model"""
 C.bn_eps = 1e-5
@@ -81,7 +82,7 @@ if C.mode == "teacher":
     C.branch = [2]
     C.width_mult_list = [4./12, 6./12, 8./12, 10./12, 1.,]
     C.stem_head_width = [(1, 1)]
-    C.load_path = "fasterseg" # path to the searched directory
+    C.load_path = "fasterseg" # path to the searched directory # TODO
     C.load_epoch = "last" # "last" or "int" (e.g. "30"): which epoch to load from the searched architecture
     C.batch_size = 12
     C.Fch = 12
@@ -94,8 +95,8 @@ elif C.mode == "student":
     C.branch = [2, 2]
     C.width_mult_list = [4./12, 6./12, 8./12, 10./12, 1.,]
     C.stem_head_width = [(1, 1), (8./12, 8./12),]
-    C.load_path = "fasterseg" # path to the searched directory
-    C.teacher_path = "fasterseg" # where to load the pretrained teacher's weight
+    C.load_path = "fasterseg" # path to the searched directory # TODO
+    C.teacher_path = "fasterseg" # where to load the pretrained teacher's weight # TODO
     C.load_epoch = "last" # "last" or "int" (e.g. "30")
     C.batch_size = 12
     C.Fch = 12
@@ -106,4 +107,4 @@ elif C.mode == "student":
 ########################################
 C.is_test = False # if True, prediction files for the test set will be generated
 C.is_eval = False # if True, the train.py will only do evaluation for once
-C.eval_path = "fasterseg" # path to pretrained directory to be evaluated
+C.eval_path = "fasterseg" # path to pretrained directory to be evaluated # TODO

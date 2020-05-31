@@ -12,7 +12,7 @@ FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu16.04
 # ------------------------------------------------------------------
 
 ENV LANG C.UTF-8
-ENV CITYSCAPES_DATASET=/home/FasterSeg/dataset
+ENV DATASET_PATH=/home/FasterSeg/dataset
 
 # ==================================================================
 # TOOLS
@@ -157,7 +157,9 @@ RUN /bin/bash -c "source ~/.bashrc" && \
 # DOWLOAD FASTERSEG-REPOSITORY && INSTALL REQUIREMENTS
 # ------------------------------------------------------------------
 
-RUN git clone https://github.com/TAMU-VITA/FasterSeg && cd /home/FasterSeg/ && pip install -r requirements.txt && mkdir dataset
+RUN cd /home/ && git clone https://github.com/Gaussianer/FasterSeg.git
+RUN cd /home/FasterSeg/ && pip install -r requirements.txt
+RUN cd /home/FasterSeg/ && mkdir dataset
 
 # ==================================================================
 # CONFIG & CLEANUP
