@@ -26,9 +26,8 @@ C.root_dir = C.abs_dir[:C.abs_dir.index(C.repo_name) + len(C.repo_name)]
 C.dataset_path = os.environ["DATASET_PATH"]
 C.img_root_folder = C.dataset_path
 C.gt_root_folder = C.dataset_path
-C.train_source = osp.join(C.dataset_path, "cityscapes_train_fine.txt") # TODO
-C.eval_source = osp.join(C.dataset_path, "cityscapes_val_fine.txt") # TODO
-C.test_source = osp.join(C.dataset_path, "cityscapes_test.txt") # TODO
+C.train_source = osp.join(C.dataset_path, "train_mapping_list.txt") 
+C.eval_source = osp.join(C.dataset_path, "val_mapping_list.txt") 
 
 """Path Config"""
 def add_path(path):

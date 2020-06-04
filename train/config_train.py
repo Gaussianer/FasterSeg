@@ -27,10 +27,10 @@ C.log_dir = osp.abspath(osp.join(C.root_dir, 'log', C.this_dir))
 C.dataset_path = os.environ["DATASET_PATH"]
 C.img_root_folder = C.dataset_path
 C.gt_root_folder = C.dataset_path
-C.train_source = osp.join(C.dataset_path, "cityscapes_train_fine.txt") # TODO
+C.train_source = osp.join(C.dataset_path, "train_mapping_list.txt") 
 C.train_eval_source = osp.join(C.dataset_path, "cityscapes_train_val_fine.txt") # TODO
-C.eval_source = osp.join(C.dataset_path, "cityscapes_val_fine.txt") # TODO
-C.test_source = osp.join(C.dataset_path, "cityscapes_test.txt") # TODO
+C.eval_source = osp.join(C.dataset_path, "val_mapping_list.txt") 
+C.test_source = osp.join(C.dataset_path, "test_mapping_list.txt") 
 
 """Path Config"""
 def add_path(path):

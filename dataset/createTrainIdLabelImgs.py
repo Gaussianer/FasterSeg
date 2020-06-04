@@ -35,8 +35,8 @@ def main():
     else:
         datasetPath = os.path.join(os.path.dirname(os.path.realpath(__file__)),'..','..')
     # how to search for all ground truth
-    searchFine   = os.path.join( datasetPath , "gtFine"   , "*" , "*" , "*_gt*_polygons.json" ) # TODO
-    searchCoarse = os.path.join( datasetPath , "gtCoarse" , "*" , "*" , "*_gt*_polygons.json" ) # TODO
+    searchFine   = os.path.join( datasetPath , "annotations" , "*" ,  "*_polygons.json" )
+    searchCoarse = os.path.join( datasetPath , "original_images" , "*" ,  "*_polygons.json" )
 
     # search files
     filesFine = glob.glob( searchFine )
