@@ -8,12 +8,14 @@ In ICLR 2020.
 
 ## Overview
 
+We will show you a way to train the FasterSeg model with custom data for your own application requirements.
+
 <p align="center">
   <img src="images/cityscapes_128x256.gif" alt="Cityscapes" width="300"/></br>
   <span align="center">Our predictions on Cityscapes Stuttgart demo video #0</span>
 </p>
 
-We present FasterSeg, an automatically designed semantic segmentation network with not only state-of-the-art performance but also faster speed than current methods. 
+FasterSeg is an automatically designed semantic segmentation network with not only state-of-the-art performance but also faster speed than current methods. 
 
 Highlights:
 * **Novel search space**: support multi-resolution branches.
@@ -59,19 +61,25 @@ sudo docker build -t fasterseg:latest -f Dockerfile .
 ```bash
 sudo nvidia-docker run --rm --gpus all -it fasterseg:latest
 ```
-
+<!-- sudo na-docker run --rm --gpus all -it -p 6006:6006 fasterseg4:latest !-->
+<!-- Run same container instance:  sudo docker exec -it 30594a417aee bash !-->
 ## Usage
 * **Work flow: [pretrain the supernet](https://github.com/chenwydj/FasterSeg#11-pretrain-the-supernet) &rarr; [search the archtecture](https://github.com/chenwydj/FasterSeg#12-search-the-architecture) &rarr; [train the teacher](https://github.com/chenwydj/FasterSeg#21-train-the-teacher-network) &rarr; [train the student](https://github.com/chenwydj/FasterSeg#22-train-the-student-network-fasterseg).**
 * You can monitor the whole process in the Tensorboard.
 
 ### 0. Prepare the dataset
-* Download your dataset and save it in ```home/FasterSeg/dataset```. For your dataset, orientate yourself on the structure of the Cityscapes dataset. In /home/FasterSeg/dataset the folders "gtFine" and "leftImg8bit" should be present. The two folders should contain another three folders: "test", "train" and "val". See [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1) from the Cityscapes dataset.
+* Your dataset should consist of annotations and raw images. For example, we have included two raw images and the corresponding annotations for training, validation and test data in the repository. (See `dataset/annotations/*` for the annotations or `dataset/original_images/*` for the raw images). Split your dataset into the folders train, val and test and place them there. (The example dataset used here comes from the cityscapes dataset, see [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1))
+
 * Prepare the annotations by using the [createTrainIdLabelImgs.py](https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/preparation/createTrainIdLabelImgs.py) 
 ```bash
 cd home/FasterSeg/dataset
 python createTrainIdLabelImgs.py
 ```
-* Put the files of image list into /home/FasterSeg/dataset. Here we need a script that creates files with the image list. This script still has to be implemented - feel free to help us :-). For the file with the image list you can orientate yourself at [files of image list](tools/datasets/cityscapes/).
+* Create the mapping lists for the training data:
+```bash
+cd home/FasterSeg/dataset
+python create_mapping_lists.py
+```
 
 ### 1. Search
 ```bash
