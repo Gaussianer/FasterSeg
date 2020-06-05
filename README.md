@@ -119,11 +119,10 @@ CUDA_VISIBLE_DEVICES=0 python train.py
 ```
 
 ### 3. Evaluation
-For the evaluation you use your own pre-trained FasterSeg.
+To evaluate your custom FasterSeg model, follow the steps below:
 ```bash
 cd /home/FasterSeg/train
 ```
-* Set `C.is_eval = True` in `config_train.py`.
 * Copy `arch_0.pt` and `arch_1.pt` into `/home/FasterSeg/train/fasterseg`. For this, execute the following commands:
 ```bash
 cd /home/FasterSeg/train/search-224x448_F12.L16_batch2-20200102-123456
@@ -134,6 +133,7 @@ cp {arch_0.pt,arch_1.pt} /home/FasterSeg/train/fasterseg/
 cd /home/FasterSeg/train/train-512x1024_student_batch12-20200103-234501
 cp {weights0.pt,weights1.pt} /home/FasterSeg/train/fasterseg/
 ```
+* Set `C.is_eval = True` in `config_train.py`.
 * Set the name of the searched folders as `C.load_path = "fasterseg"` and `C.teacher_path="fasterseg"` in `config_train.py`.
 * Start the evaluation process:
 ```bash
