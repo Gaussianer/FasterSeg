@@ -119,14 +119,22 @@ CUDA_VISIBLE_DEVICES=0 python train.py
 ```
 
 ### 3. Evaluation
-Here we use our pretrained FasterSeg as an example for the evaluation.
+For the evaluation you use your own pre-trained FasterSeg.
 ```bash
 cd /home/FasterSeg/train
 ```
 * Set `C.is_eval = True` in `config_train.py`.
-* Set the name of the searched folder as `C.load_path = "fasterseg"` in `config_train.py`.
-* Download the pretrained weights of the [teacher](https://drive.google.com/file/d/168HtgNnY9OdCz5Z6FWxoJr-gd5EtS5Sp/view?usp=sharing) and [student](https://drive.google.com/file/d/1O56HnA0ug2M3K4SR3_AUzIs0wegy9BX6/view?usp=sharing) and put them into folder `train/fasterseg`.
-<!-- * set the name of pretrained directory as `C.eval_path = "/path/to/pretrained/models/"` in `config_train.py`. -->
+* Copy `arch_0.pt` and `arch_1.pt` into `/home/FasterSeg/train/fasterseg`. For this, execute the following commands:
+```bash
+cd /home/FasterSeg/train/search-224x448_F12.L16_batch2-20200102-123456
+cp {arch_0.pt,arch_1.pt} /home/FasterSeg/train/fasterseg/
+```
+* Copy `weights0.pt` and `weights1.pt` into `/home/FasterSeg/train/fasterseg`. For this, execute the following commands:
+```bash
+cd /home/FasterSeg/train/train-512x1024_student_batch12-20200103-234501
+cp {weights0.pt,weights1.pt} /home/FasterSeg/train/fasterseg/
+```
+* Set the name of the searched folders as `C.load_path = "fasterseg"` and `C.teacher_path="fasterseg"` in `config_train.py`.
 * Start the evaluation process:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python train.py
