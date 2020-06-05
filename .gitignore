@@ -3,7 +3,7 @@
 # caffe/pytorch model files
 *.pth
 # json
-*.json
+
 
 # Mkdocs
 # /docs/

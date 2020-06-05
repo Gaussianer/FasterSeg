@@ -28,7 +28,7 @@ C.dataset_path = os.environ["DATASET_PATH"]
 C.img_root_folder = C.dataset_path
 C.gt_root_folder = C.dataset_path
 C.train_source = osp.join(C.dataset_path, "train_mapping_list.txt") 
-C.train_eval_source = osp.join(C.dataset_path, "cityscapes_train_val_fine.txt") # TODO
+C.train_eval_source = osp.join(C.dataset_path, "train_val_mapping_list.txt") # TODO originally this was "cityscapes_train_val_fine.txt"
 C.eval_source = osp.join(C.dataset_path, "val_mapping_list.txt") 
 C.test_source = osp.join(C.dataset_path, "test_mapping_list.txt") 
 
