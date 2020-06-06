@@ -5,7 +5,7 @@ We will show you a way to train the FasterSeg model with custom data for your ow
 But next we will introduce FasterSeg. We will then use a modified version of the FasterSeg repository to show how you can train it to use custom objects.
 
 
-## Overview
+## FasterSeg 
 ### FasterSeg: Searching for Faster Real-time Semantic Segmentation [[PDF](https://arxiv.org/pdf/1912.10917.pdf)]
 
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/TAMU-VITA/FasterSeg.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TAMU-VITA/FasterSeg/context:python) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
