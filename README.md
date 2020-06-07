@@ -113,7 +113,7 @@ CUDA_VISIBLE_DEVICES=0 python train_search.py
 * `arch_0` and `arch_1` contains architectures for teacher and student networks, respectively.
 
 ### 2. Train from scratch
-* Copy the folder which contains the searched architecture into `/home/FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`. Use the following commands for this:
+* Copy the folder which contains the searched architecture into `/home/FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`. Use the following commands to copy the folder into `/home/FasterSeg/train/`:
 ```bash
 cd /home/FasterSeg/search
 cp -r search-224x448_F12.L16_batch2-20200102-123456/ /home/FasterSeg/train/
