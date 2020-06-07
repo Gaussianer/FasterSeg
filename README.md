@@ -67,8 +67,9 @@ sudo nvidia-docker run --rm --gpus all -it fasterseg:latest
 ```
 <!-- sudo na-docker run --rm --gpus all -it -p 6006:6006 fasterseg4:latest !-->
 * Executing the same instance of the container at a later point in time
-> Note - To run the same container, execute the following command: 'sudo docker exec -it <Container ID> bash' <
-Example: sudo docker exec -it 555c637442f3 bash  
+> Note - To run the same container, execute the following command: `sudo docker exec -it <Container ID> bash`
+  
+Example: `sudo docker exec -it 555c637442f3 bash` 
 <!-- Run same container instance:  sudo docker exec -it 30594a417aee bash !-->
 ## Usage
 * **Work flow: [pretrain the supernet](https://github.com/chenwydj/FasterSeg#11-pretrain-the-supernet) &rarr; [search the archtecture](https://github.com/chenwydj/FasterSeg#12-search-the-architecture) &rarr; [train the teacher](https://github.com/chenwydj/FasterSeg#21-train-the-teacher-network) &rarr; [train the student](https://github.com/chenwydj/FasterSeg#22-train-the-student-network-fasterseg).**
