@@ -113,8 +113,12 @@ CUDA_VISIBLE_DEVICES=0 python train_search.py
 * `arch_0` and `arch_1` contains architectures for teacher and student networks, respectively.
 
 ### 2. Train from scratch
-* `cd /home/FasterSeg/train`
-* Copy the folder which contains the searched architecture into `/home/FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`
+* Copy the folder which contains the searched architecture into `/home/FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`. Use the following commands for this:
+```bash
+cd /home/FasterSeg/search
+cp -r search-224x448_F12.L16_batch2-20200102-123456/ /home/FasterSeg/train/
+```
+* Change to the train directory: `cd /home/FasterSeg/train`
 #### 2.1 Train the teacher network
 * Set `C.mode = "teacher"` in `config_train.py`.
 <!-- * uncomment the `## train teacher model only ##` section in `config_train.py` and comment the `## train student with KL distillation from teacher ##` section. -->
