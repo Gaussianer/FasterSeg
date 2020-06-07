@@ -16,7 +16,7 @@ In ICLR 2020.
 
 <p align="center">
   <img src="images/cityscapes_128x256.gif" alt="Cityscapes" width="300"/></br>
-  <span align="center">Our predictions on Cityscapes Stuttgart demo video #0</span>
+  <span align="center">The predictions of the original FasterSeg model on the Cityscapes Stuttgart demo video #0</span>
 </p>
 
 FasterSeg is an automatically designed semantic segmentation network with not only state-of-the-art performance but also faster speed than current methods. 
