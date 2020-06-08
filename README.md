@@ -1,4 +1,12 @@
-# FasterSeg: Searching for Faster Real-time Semantic Segmentation [[PDF](https://arxiv.org/pdf/1912.10917.pdf)]
+# Training the FasterSeg model with custom data
+## 
+
+We will show you a way to train the FasterSeg model with custom data for your own application requirements.
+But next we will introduce FasterSeg. We will then use a modified version of the FasterSeg repository to show how you can train it to use custom objects.
+
+
+## FasterSeg 
+### FasterSeg: Searching for Faster Real-time Semantic Segmentation [[PDF](https://arxiv.org/pdf/1912.10917.pdf)]
 
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/TAMU-VITA/FasterSeg.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TAMU-VITA/FasterSeg/context:python) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
@@ -6,13 +14,9 @@ Wuyang Chen, Xinyu Gong, Xianming Liu, Qian Zhang, Yuan Li, Zhangyang Wang
 
 In ICLR 2020.
 
-## Overview
-
-We will show you a way to train the FasterSeg model with custom data for your own application requirements.
-
 <p align="center">
   <img src="images/cityscapes_128x256.gif" alt="Cityscapes" width="300"/></br>
-  <span align="center">Our predictions on Cityscapes Stuttgart demo video #0</span>
+  <span align="center">The predictions of the original FasterSeg model on the Cityscapes Stuttgart demo video #0</span>
 </p>
 
 FasterSeg is an automatically designed semantic segmentation network with not only state-of-the-art performance but also faster speed than current methods. 
@@ -62,6 +66,10 @@ sudo docker build -t fasterseg:latest -f Dockerfile .
 sudo nvidia-docker run --rm --gpus all -it fasterseg:latest
 ```
 <!-- sudo na-docker run --rm --gpus all -it -p 6006:6006 fasterseg4:latest !-->
+* Executing the same instance of the container at a later point in time
+> Note - To run the same container, execute the following command: `sudo docker exec -it <Container ID> bash`
+  
+Example: `sudo docker exec -it 555c637442f3 bash` 
 <!-- Run same container instance:  sudo docker exec -it 30594a417aee bash !-->
 ## Usage
 * **Work flow: [pretrain the supernet](https://github.com/chenwydj/FasterSeg#11-pretrain-the-supernet) &rarr; [search the archtecture](https://github.com/chenwydj/FasterSeg#12-search-the-architecture) &rarr; [train the teacher](https://github.com/chenwydj/FasterSeg#21-train-the-teacher-network) &rarr; [train the student](https://github.com/chenwydj/FasterSeg#22-train-the-student-network-fasterseg).**
@@ -105,8 +113,12 @@ CUDA_VISIBLE_DEVICES=0 python train_search.py
 * `arch_0` and `arch_1` contains architectures for teacher and student networks, respectively.
 
 ### 2. Train from scratch
-* `cd /home/FasterSeg/train`
-* Copy the folder which contains the searched architecture into `/home/FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`
+* Copy the folder which contains the searched architecture into `/home/FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`. Use the following commands to copy the folder into `/home/FasterSeg/train/`:
+```bash
+cd /home/FasterSeg/search
+cp -r search-224x448_F12.L16_batch2-20200102-123456/ /home/FasterSeg/train/
+```
+* Change to the train directory: `cd /home/FasterSeg/train`
 #### 2.1 Train the teacher network
 * Set `C.mode = "teacher"` in `config_train.py`.
 <!-- * uncomment the `## train teacher model only ##` section in `config_train.py` and comment the `## train student with KL distillation from teacher ##` section. -->
