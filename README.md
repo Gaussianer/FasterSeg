@@ -1,4 +1,12 @@
-# FasterSeg: Searching for Faster Real-time Semantic Segmentation [[PDF](https://arxiv.org/pdf/1912.10917.pdf)]
+# Training the FasterSeg model with custom data
+## 
+
+We will show you a way to train the FasterSeg model with custom data for your own application requirements.
+But next we will introduce FasterSeg. We will then use a modified version of the FasterSeg repository to show how you can train it to use custom objects.
+
+
+## FasterSeg 
+### FasterSeg: Searching for Faster Real-time Semantic Segmentation [[PDF](https://arxiv.org/pdf/1912.10917.pdf)]
 
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/TAMU-VITA/FasterSeg.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TAMU-VITA/FasterSeg/context:python) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
@@ -6,14 +14,12 @@ Wuyang Chen, Xinyu Gong, Xianming Liu, Qian Zhang, Yuan Li, Zhangyang Wang
 
 In ICLR 2020.
 
-## Overview
-
 <p align="center">
   <img src="images/cityscapes_128x256.gif" alt="Cityscapes" width="300"/></br>
-  <span align="center">Our predictions on Cityscapes Stuttgart demo video #0</span>
+  <span align="center">The predictions of the original FasterSeg model on the Cityscapes Stuttgart demo video #0</span>
 </p>
 
-We present FasterSeg, an automatically designed semantic segmentation network with not only state-of-the-art performance but also faster speed than current methods. 
+FasterSeg is an automatically designed semantic segmentation network with not only state-of-the-art performance but also faster speed than current methods. 
 
 Highlights:
 * **Novel search space**: support multi-resolution branches.
@@ -59,19 +65,29 @@ sudo docker build -t fasterseg:latest -f Dockerfile .
 ```bash
 sudo nvidia-docker run --rm --gpus all -it fasterseg:latest
 ```
-
+<!-- sudo na-docker run --rm --gpus all -it -p 6006:6006 fasterseg4:latest !-->
+* Executing the same instance of the container at a later point in time
+> Note - To run the same container, execute the following command: `sudo docker exec -it <Container ID> bash`
+  
+Example: `sudo docker exec -it 555c637442f3 bash` 
+<!-- Run same container instance:  sudo docker exec -it 30594a417aee bash !-->
 ## Usage
 * **Work flow: [pretrain the supernet](https://github.com/chenwydj/FasterSeg#11-pretrain-the-supernet) &rarr; [search the archtecture](https://github.com/chenwydj/FasterSeg#12-search-the-architecture) &rarr; [train the teacher](https://github.com/chenwydj/FasterSeg#21-train-the-teacher-network) &rarr; [train the student](https://github.com/chenwydj/FasterSeg#22-train-the-student-network-fasterseg).**
 * You can monitor the whole process in the Tensorboard.
 
 ### 0. Prepare the dataset
-* Download your dataset and save it in ```home/FasterSeg/dataset```. For your dataset, orientate yourself on the structure of the Cityscapes dataset. In /home/FasterSeg/dataset the folders "gtFine" and "leftImg8bit" should be present. The two folders should contain another three folders: "test", "train" and "val". See [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1) from the Cityscapes dataset.
+* Your dataset should consist of annotations and raw images. For example, we have included two raw images and the corresponding annotations for training, validation and test data in the repository. (See `dataset/annotations/*` for the annotations or `dataset/original_images/*` for the raw images). Split your dataset into the folders train, val and test and place them there. (The example dataset used here comes from the cityscapes dataset, see [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1))
+
 * Prepare the annotations by using the [createTrainIdLabelImgs.py](https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/preparation/createTrainIdLabelImgs.py) 
 ```bash
 cd home/FasterSeg/dataset
 python createTrainIdLabelImgs.py
 ```
-* Put the files of image list into /home/FasterSeg/dataset. Here we need a script that creates files with the image list. This script still has to be implemented - feel free to help us :-). For the file with the image list you can orientate yourself at [files of image list](tools/datasets/cityscapes/).
+* Create the mapping lists for the training data:
+```bash
+cd home/FasterSeg/dataset
+python create_mapping_lists.py
+```
 
 ### 1. Search
 ```bash
@@ -97,8 +113,12 @@ CUDA_VISIBLE_DEVICES=0 python train_search.py
 * `arch_0` and `arch_1` contains architectures for teacher and student networks, respectively.
 
 ### 2. Train from scratch
-* `cd /home/FasterSeg/train`
-* Copy the folder which contains the searched architecture into `/home/FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`
+* Copy the folder which contains the searched architecture into `/home/FasterSeg/train/` or create a symlink via `ln -s ../search/search-224x448_F12.L16_batch2-20200102-123456 ./`. Use the following commands to copy the folder into `/home/FasterSeg/train/`:
+```bash
+cd /home/FasterSeg/search
+cp -r search-224x448_F12.L16_batch2-20200102-123456/ /home/FasterSeg/train/
+```
+* Change to the train directory: `cd /home/FasterSeg/train`
 #### 2.1 Train the teacher network
 * Set `C.mode = "teacher"` in `config_train.py`.
 <!-- * uncomment the `## train teacher model only ##` section in `config_train.py` and comment the `## train student with KL distillation from teacher ##` section. -->
@@ -119,14 +139,22 @@ CUDA_VISIBLE_DEVICES=0 python train.py
 ```
 
 ### 3. Evaluation
-Here we use our pretrained FasterSeg as an example for the evaluation.
+To evaluate your custom FasterSeg model, follow the steps below:
 ```bash
 cd /home/FasterSeg/train
 ```
+* Copy `arch_0.pt` and `arch_1.pt` into `/home/FasterSeg/train/fasterseg`. For this, execute the following commands:
+```bash
+cd /home/FasterSeg/train/search-224x448_F12.L16_batch2-20200102-123456
+cp {arch_0.pt,arch_1.pt} /home/FasterSeg/train/fasterseg/
+```
+* Copy `weights0.pt` and `weights1.pt` into `/home/FasterSeg/train/fasterseg`. For this, execute the following commands:
+```bash
+cd /home/FasterSeg/train/train-512x1024_student_batch12-20200103-234501
+cp {weights0.pt,weights1.pt} /home/FasterSeg/train/fasterseg/
+```
 * Set `C.is_eval = True` in `config_train.py`.
-* Set the name of the searched folder as `C.load_path = "fasterseg"` in `config_train.py`.
-* Download the pretrained weights of the [teacher](https://drive.google.com/file/d/168HtgNnY9OdCz5Z6FWxoJr-gd5EtS5Sp/view?usp=sharing) and [student](https://drive.google.com/file/d/1O56HnA0ug2M3K4SR3_AUzIs0wegy9BX6/view?usp=sharing) and put them into folder `train/fasterseg`.
-<!-- * set the name of pretrained directory as `C.eval_path = "/path/to/pretrained/models/"` in `config_train.py`. -->
+* Set the name of the searched folders as `C.load_path = "fasterseg"` and `C.teacher_path="fasterseg"` in `config_train.py`.
 * Start the evaluation process:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python train.py

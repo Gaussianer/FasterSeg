@@ -158,7 +158,7 @@ RUN /bin/bash -c "source ~/.bashrc" && \
 # ------------------------------------------------------------------
 
 RUN cd /home/ && git clone https://github.com/Gaussianer/FasterSeg.git
-RUN cd /home/FasterSeg/ && pip install -r requirements.txt
+#RUN cd /home/FasterSeg/ && pip install -r requirements.txt
 
 # ==================================================================
 # CONFIG & CLEANUP
