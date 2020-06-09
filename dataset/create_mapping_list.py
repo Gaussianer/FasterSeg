@@ -3,7 +3,11 @@
 #A pair consists of the raw picture and the corresponding annotated picture.
 #The mapping list is needed for the training of the FasterSeg network.
 #
-
+#Changes in compartion to create_mapping_list.py
+#-select train, val, test at the beginning
+#-reduce the number of for loop iterations in func writeNamesInFile()
+#
+#
 # python imports
 from __future__ import print_function, absolute_import, division
 import os, glob, sys
@@ -11,7 +15,6 @@ import re, time
 
 #Func: main()################################################
 #This is the mainfunction of the script
-# 
 #  
 #############################################################
 def main():
@@ -22,44 +25,51 @@ def main():
         datasetPath = os.path.join(os.path.dirname(os.path.realpath(__file__)),'..','..')
 
     
-    # how to search for all ground truth
+    # how to search for the pathnames
     # all *_polygon.json files in the annotations folder
     # all *_raw images in the original_images folder
+    # separated by train, val and test 
     
-    search_annotations = os.path.join( datasetPath , "annotations" , "*" ,  "*_polygons.json" ) #after testing search directly for _labelTrainIds.png
-    search_raw = os.path.join( datasetPath , "original_images" , "*" ,  "*_raw.png" ) #after testing change to _raw.png
+    search_annotations_train = os.path.join( datasetPath, "annotations/train" , "*_labelTrainIds.png" ) #after testing search directly for _labelTrainIds.png
+    search_annotations_val = os.path.join( datasetPath , "annotations/val" , "*_labelTrainIds.png" ) #after testing change to _raw.png
+    search_annotations_test = os.path.join( datasetPath , "annotations/test" , "*_labelTrainIds.png" )
+
+    search_raw_train = os.path.join( datasetPath, "original_images/train" , "*_raw.png" )
+    search_raw_val = os.path.join( datasetPath , "original_images/val" , "*_raw.png" )
+    search_raw_test = os.path.join( datasetPath , "original_images/test" , "*_raw.png" )
 
     # search and sort the lists with the file names
-    filesAnnotations = glob.glob(search_annotations)
-    filesAnnotations.sort()
-    filesRaw = glob.glob(search_raw)
-    filesRaw.sort()
 
-    #for testing change the filename of the annotations from "_polygons.json" to "_labelTrainIds.png"
-    #finally select the _labelTrainIds.png directly, so the for loop is not necessary
-    i=0
-    for f in filesAnnotations:
-        # create the output filename
-        filesAnnotations[i] = f.replace( "_polygons.json" , "_labelTrainIds.png" ) #target name depends on the encoding method in json2labelImg()
-        i=i+1
+    filesAnnotationsTrain = glob.glob(search_annotations_train)
+    filesAnnotationsTrain.sort()
+    filesAnnotationsVal = glob.glob(search_annotations_val)
+    filesAnnotationsVal.sort()
+    filesAnnotationsTest = glob.glob(search_annotations_test)
+    filesAnnotationsTest.sort()
 
+    filesRawTrain = glob.glob(search_raw_train)
+    filesRawTrain.sort()
+    filesRawVal = glob.glob(search_raw_val)
+    filesRawVal.sort()
+    filesRawTest = glob.glob(search_raw_test)
+    filesRawTest.sort()
 
     #parse filesRaw and filesAnnotation and store the names pairwise in the corresponding text file 
     #first for training dataset
     try:
-        writeNamesInFile(filesRaw, filesAnnotations, "train", datasetPath)
+        writeNamesInFile(filesRawTrain, filesAnnotationsTrain, "train", datasetPath)
     except:
         print("error: creation of train_mapping_list failed")
 
     #second for validation dataset
     try:
-        writeNamesInFile(filesRaw, filesAnnotations, "val", datasetPath)
+        writeNamesInFile(filesRawVal, filesAnnotationsVal, "val", datasetPath)
     except:
         print("error: creation of val_mapping_list failed")
 
     #third for test dataset
     try:
-        writeNamesInFile(filesRaw, filesAnnotations, "test", datasetPath)
+        writeNamesInFile(filesRawTest, filesAnnotationsTest, "test", datasetPath)
     except:
         print("error: creation of test_mapping_list failed")
 
