@@ -86,56 +86,57 @@ def main():
 ##########################################################################
 def writeNamesInFile(raw, annotation, dataset, datasetPath):
 
-    if dataset=="train":
-        mapping_file_path = datasetPath+"/train_mapping_list.txt"
-        mapping_file = open(mapping_file_path,'w')
+    if annotation != [] and raw != []:
+        if dataset=="train":
+            mapping_file_path = datasetPath+"/train_mapping_list.txt"
+            mapping_file = open(mapping_file_path,'w')
 
-        for i in raw:
-            if "train" in i:
-                mapping_file.write(i+" ")
-                search_partner = getNameFromPath(i, "raw.png")
+            for i in raw:
+                if "train" in i:
+                    mapping_file.write(i+" ")
+                    search_partner = getNameFromPath(i, "raw.png")
 
-                for j in annotation:
-                    if "train" in j:
-                        if search_partner in j:
-                            mapping_file.write(j+"\n")
-                            break
-                
-        mapping_file.close()    
+                    for j in annotation:
+                        if "train" in j:
+                            if search_partner in j:
+                                mapping_file.write(j+"\n")
+                                break
+                    
+            mapping_file.close()    
 
-    
-    elif dataset=="val":
-        mapping_file_path = datasetPath+"/val_mapping_list.txt"
-        mapping_file = open(mapping_file_path,'w')
+        
+        elif dataset=="val":
+            mapping_file_path = datasetPath+"/val_mapping_list.txt"
+            mapping_file = open(mapping_file_path,'w')
 
-        for i in raw:
-            if "val" in i:
-                mapping_file.write(i+" ")
-                search_partner = getNameFromPath(i, "raw.png")
+            for i in raw:
+                if "val" in i:
+                    mapping_file.write(i+" ")
+                    search_partner = getNameFromPath(i, "raw.png")
 
-                for j in annotation:
-                    if "val" in j:
-                        if search_partner in j:
-                            mapping_file.write(j+"\n")
-                            break   
-        mapping_file.close
+                    for j in annotation:
+                        if "val" in j:
+                            if search_partner in j:
+                                mapping_file.write(j+"\n")
+                                break   
+            mapping_file.close
 
 
-    elif dataset=="test":
-        mapping_file_path = datasetPath+"/test_mapping_list.txt"
-        mapping_file = open(mapping_file_path,'w')
+        elif dataset=="test":
+            mapping_file_path = datasetPath+"/test_mapping_list.txt"
+            mapping_file = open(mapping_file_path,'w')
 
-        for i in raw:
-            if "test" in i:
-                mapping_file.write(i+" ")
-                search_partner = getNameFromPath(i, "raw.png")
+            for i in raw:
+                if "test" in i:
+                    mapping_file.write(i+" ")
+                    search_partner = getNameFromPath(i, "raw.png")
 
-                for j in annotation:
-                    if "test" in j:
-                        if search_partner in j:
-                            mapping_file.write(j+"\n")
-                            break
-        mapping_file.close
+                    for j in annotation:
+                        if "test" in j:
+                            if search_partner in j:
+                                mapping_file.write(j+"\n")
+                                break
+            mapping_file.close
 
 #Func: getNameFromPath()################################################
 #This function extract the name of the dataset from the path. For
