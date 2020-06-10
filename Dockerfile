@@ -127,10 +127,9 @@ RUN cd /tmp && \
         /tmp/torchvision-0.3.0-cp36-cp36m-linux_x86_64.whl
 
 
-RUN python -m pip --no-cache-dir install --upgrade  \
-        tensorboard==1.9.0 \
-        tensorboardX==1.6 \        
-        thop
+RUN python -m pip --no-cache-dir install --upgrade  \   
+        tensorflow==2.2.0 \   
+        thop 
 
 # ==================================================================
 # PYCUDA
