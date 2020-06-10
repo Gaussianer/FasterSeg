@@ -108,6 +108,7 @@ sudo docker exec -it 30594a417aee bash
 cd /home/FasterSeg/search
 tensorboard --bind_all --port 6006 --logdir search-pretrain-256x512_F12.L16_batch3-20200101-012345
 ```
+--> Open on your Host http://localhost:6006/ to monitor the process.
 
 #### 1.2 Search the architecture
 We start the architecture searching for 30 epochs.
