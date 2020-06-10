@@ -102,6 +102,13 @@ CUDA_VISIBLE_DEVICES=0 python train_search.py
 ```
 * The pretrained weight will be saved in a folder like ```/home/FasterSeg/search/search-pretrain-256x512_F12.L16_batch3-20200101-012345```.
 
+* If you want to monitor the process with TensorBoard, run the following commands in a new terminal:
+```bash
+sudo docker exec -it 30594a417aee bash
+cd /home/FasterSeg/search
+tensorboard --bind_all --port 6006 --logdir search-pretrain-256x512_F12.L16_batch3-20200101-012345
+```
+
 #### 1.2 Search the architecture
 We start the architecture searching for 30 epochs.
 * Set the name of your pretrained folder (see above) `C.pretrain = "search-pretrain-256x512_F12.L16_batch3-20200101-012345"` in `config_search.py`.
