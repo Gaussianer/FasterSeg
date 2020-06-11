@@ -156,6 +156,11 @@ tensorboard --bind_all --port 6006 --logdir train-512x1024_teacher_batch12-20200
 ```bash
 CUDA_VISIBLE_DEVICES=0 python train.py
 ```
+* If you want to monitor the process with TensorBoard, cancel the previously executed TensorBoard process in the other terminal and execute the following commands there:
+```bash
+cd /home/FasterSeg/train
+tensorboard --bind_all --port 6006 --logdir train-512x1024_student_batch12-20200103-234501/
+```
 
 ### 3. Evaluation
 To evaluate your custom FasterSeg model, follow the steps below:
