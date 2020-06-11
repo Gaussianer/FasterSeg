@@ -9,6 +9,7 @@ import os
 import sys
 import numpy as np
 from easydict import EasyDict as edict
+from datasetHelper import GetTheNumberOfTrainingExamplesFor
 
 C = edict()
 config = C
@@ -45,8 +46,8 @@ C.down_sampling = 2 # first down_sampling then crop ......
 C.image_height = 160 # this size is after down_sampling
 C.image_width = 160*2
 C.gt_down_sampling = 8 # model's default output size without final upsampling
-C.num_train_imgs = 2975 # TODO
-C.num_eval_imgs = 500 # TODO
+C.num_train_imgs = GetTheNumberOfTrainingExamplesFor("train") 
+C.num_eval_imgs = GetTheNumberOfTrainingExamplesFor("val") 
 
 """ Settings for network, this would be different for each kind of model"""
 C.bn_eps = 1e-5

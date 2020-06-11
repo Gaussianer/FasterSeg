@@ -9,6 +9,7 @@ import os
 import sys
 import numpy as np
 from easydict import EasyDict as edict
+from datasetHelper import GetTheNumberOfTrainingExamplesFor
 
 C = edict()
 config = C
@@ -28,7 +29,7 @@ C.dataset_path = os.environ["DATASET_PATH"]
 C.img_root_folder = C.dataset_path
 C.gt_root_folder = C.dataset_path
 C.train_source = osp.join(C.dataset_path, "train_mapping_list.txt") 
-C.train_eval_source = osp.join(C.dataset_path, "train_val_mapping_list.txt") # TODO originally this was "cityscapes_train_val_fine.txt"
+C.train_eval_source = osp.join(C.dataset_path, "train_val_mapping_list.txt")
 C.eval_source = osp.join(C.dataset_path, "val_mapping_list.txt") 
 C.test_source = osp.join(C.dataset_path, "test_mapping_list.txt") 
 
@@ -47,8 +48,8 @@ C.image_std = np.array([0.229, 0.224, 0.225])
 C.target_size = 1024
 C.down_sampling = 1 # first down_sampling then crop ......
 C.gt_down_sampling = 1
-C.num_train_imgs = 2975 # TODO
-C.num_eval_imgs = 500 # TODO
+C.num_train_imgs = GetTheNumberOfTrainingExamplesFor("train") 
+C.num_eval_imgs = GetTheNumberOfTrainingExamplesFor("val") 
 
 """ Settings for network, this would be different for each kind of model"""
 C.bn_eps = 1e-5
