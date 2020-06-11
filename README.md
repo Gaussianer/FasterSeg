@@ -121,7 +121,6 @@ CUDA_VISIBLE_DEVICES=0 python train_search.py
 
 * If you want to monitor the process with TensorBoard, cancel the previously executed TensorBoard process in the other terminal and execute the following commands there:
 ```bash
-sudo docker exec -it 555c637442f3  bash
 cd /home/FasterSeg/search
 tensorboard --bind_all --port 6006 --logdir search-224x448_F12.L6_batch2-20200611-155014/
 ```
@@ -144,8 +143,7 @@ CUDA_VISIBLE_DEVICES=0 python train.py
 ```
 * If you want to monitor the process with TensorBoard, cancel the previously executed TensorBoard process in the other terminal and execute the following commands there:
 ```bash
-sudo docker exec -it 555c637442f3  bash
-cd /home/FasterSeg/search
+cd /home/FasterSeg/train
 tensorboard --bind_all --port 6006 --logdir train-512x1024_teacher_batch2-20200611-164736/
 ```
 * The trained teacher will be saved in a folder like `train-512x1024_teacher_batch12-20200103-234501`
