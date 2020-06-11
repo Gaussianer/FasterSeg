@@ -119,7 +119,7 @@ CUDA_VISIBLE_DEVICES=0 python train_search.py
 * The searched architecture will be saved in a folder like ```/home/FasterSeg/search/search-224x448_F12.L16_batch2-20200102-123456```.
 * `arch_0` and `arch_1` contains architectures for teacher and student networks, respectively.
 
-* If you want to monitor the process with TensorBoard, run the following commands in a new terminal:
+* If you want to monitor the process with TensorBoard, cancel the previously executed TensorBoard process in the other terminal and execute the following commands there:
 ```bash
 sudo docker exec -it 555c637442f3  bash
 cd /home/FasterSeg/search
@@ -141,6 +141,12 @@ cp -r search-224x448_F12.L16_batch2-20200102-123456/ /home/FasterSeg/train/
 * Start the teacher's training process:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python train.py
+```
+* If you want to monitor the process with TensorBoard, cancel the previously executed TensorBoard process in the other terminal and execute the following commands there:
+```bash
+sudo docker exec -it 555c637442f3  bash
+cd /home/FasterSeg/search
+tensorboard --bind_all --port 6006 --logdir train-512x1024_teacher_batch2-20200611-164736/
 ```
 * The trained teacher will be saved in a folder like `train-512x1024_teacher_batch12-20200103-234501`
 #### 2.2 Train the student network (FasterSeg)
