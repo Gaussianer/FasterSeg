@@ -63,9 +63,8 @@ sudo docker build -t fasterseg:latest -f Dockerfile .
 ```
 * Run the container
 ```bash
-sudo nvidia-docker run --rm --gpus all -it fasterseg:latest
+sudo nvidia-docker run --rm --gpus all -it -p 6006:6006 fasterseg:latest
 ```
-<!-- sudo na-docker run --rm --gpus all -it -p 6006:6006 fasterseg4:latest !-->
 * Executing the same instance of the container at a later point in time
 > Note - To run the same container, execute the following command: `sudo docker exec -it <Container ID> bash`
   
@@ -104,10 +103,11 @@ CUDA_VISIBLE_DEVICES=0 python train_search.py
 
 * If you want to monitor the process with TensorBoard, run the following commands in a new terminal:
 ```bash
-sudo docker exec -it 30594a417aee bash
+sudo docker exec -it 555c637442f3  bash
 cd /home/FasterSeg/search
 tensorboard --bind_all --port 6006 --logdir search-pretrain-256x512_F12.L16_batch3-20200101-012345
 ```
+> Open on your Host http://localhost:6006/ to monitor the process with TensorBoard.
 
 #### 1.2 Search the architecture
 We start the architecture searching for 30 epochs.
