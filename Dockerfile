@@ -128,7 +128,8 @@ RUN cd /tmp && \
 
 
 RUN python -m pip --no-cache-dir install --upgrade  \   
-        tensorflow==2.2.0 \   
+        tensorflow==1.9.0 \ 
+	tensorboardX==1.6 \    
         thop 
 
 # ==================================================================
