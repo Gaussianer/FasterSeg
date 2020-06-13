@@ -1,9 +1,7 @@
-# Training the FasterSeg model with custom data
+# How to train FasterSeg for custom objects
 ## 
 
-We will show you a way to train the FasterSeg model with custom data for your own application requirements.
-But next we will introduce FasterSeg. We will then use a modified version of the FasterSeg repository to show how you can train it to use custom objects.
-
+In this repository we will show you how to train FasterSeg with custom data. But first we will introduce FasterSeg. We will then use this repository to show you a way to train FasterSeg with custom data for your purpose. 
 
 ## FasterSeg 
 ### FasterSeg: Searching for Faster Real-time Semantic Segmentation [[PDF](https://arxiv.org/pdf/1912.10917.pdf)]
@@ -52,6 +50,7 @@ This repository has been tested on GTX 1080Ti. Configurations (e.g batch size, i
 * Install [Docker and NVIDIA container runtime](https://www.celantur.com/blog/run-cuda-in-docker-on-linux/) what is needed to use a preconfigured training environment.
 * Clone this repo:
 ```bash
+cd path/where/to/store/the/repository
 git clone https://github.com/Gaussianer/FasterSeg.git
 ```
 * Download [TensorRT](https://developer.nvidia.com/nvidia-tensorrt-5x-download) 5.1.5.0 GA for Ubuntu 16.04 and CUDA 10.1 tar package.
@@ -65,11 +64,8 @@ sudo docker build -t fasterseg:latest -f Dockerfile .
 ```bash
 sudo nvidia-docker run --rm --gpus all -it -p 6006:6006 fasterseg:latest
 ```
-* Executing the same instance of the container at a later point in time
-> Note - To run the same container, execute the following command: `sudo docker exec -it <Container ID> bash`
+> Note: To execute the same instance of the container at a later time, you can execute the following command: `sudo docker exec -it <Container ID> bash`
   
-Example: `sudo docker exec -it 555c637442f3 bash` 
-<!-- Run same container instance:  sudo docker exec -it 30594a417aee bash !-->
 ## Usage
 * **Work flow: [pretrain the supernet](https://github.com/chenwydj/FasterSeg#11-pretrain-the-supernet) &rarr; [search the archtecture](https://github.com/chenwydj/FasterSeg#12-search-the-architecture) &rarr; [train the teacher](https://github.com/chenwydj/FasterSeg#21-train-the-teacher-network) &rarr; [train the student](https://github.com/chenwydj/FasterSeg#22-train-the-student-network-fasterseg).**
 * You can monitor the whole process in the Tensorboard.
