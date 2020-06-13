@@ -33,7 +33,7 @@ def main():
     
     os.chdir(datasetPath)
     search_annotations_train = os.path.join( "annotations/train" , "*_labelTrainIds.png" ) #after testing search directly for _labelTrainIds.png
-    search_annotations_val = os.path.join( "annotations/val" , "*_labelTrainIds.png" ) #after testing change to _raw.png
+    search_annotations_val = os.path.join( "annotations/val" , "*_labelTrainIds.png" ) 
     search_annotations_test = os.path.join( "annotations/test" , "*_labelTrainIds.png" )
 
     search_raw_train = os.path.join( "original_images/train" , "*_raw.png" )
@@ -145,6 +145,8 @@ def createMappingList(raw, annotation, dataset, datasetPath):
                                 mapping_file.write(j+"\n")
                                 break
             mapping_file.close
+    else:
+        print("no raw or annotation files for "+dataset)
 
 #Func: getNameFromPath()################################################
 #This function extract the name of the dataset from the path. For
