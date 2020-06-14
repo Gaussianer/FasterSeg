@@ -142,6 +142,7 @@ CUDA_VISIBLE_DEVICES=0 python train.py
 cd /home/FasterSeg/train
 tensorboard --bind_all --port 6006 --logdir train-512x1024_teacher_batch12-20200103-234501/
 ```
+> Open on your Host http://localhost:6006/ to monitor the process with TensorBoard.
 * The trained teacher will be saved in a folder like `train-512x1024_teacher_batch12-20200103-234501`
 #### 2.2 Train the student network (FasterSeg)
 * Set `C.mode = "student"` in `config_train.py`.
@@ -157,6 +158,7 @@ CUDA_VISIBLE_DEVICES=0 python train.py
 cd /home/FasterSeg/train
 tensorboard --bind_all --port 6006 --logdir train-512x1024_student_batch12-20200103-234501/
 ```
+> Open on your Host http://localhost:6006/ to monitor the process with TensorBoard.
 
 ### 3. Evaluation
 To evaluate your custom FasterSeg model, follow the steps below:
