@@ -82,7 +82,7 @@ python clean_up_datasets.py
 # Load the new dataset and split it.
 python pull_data_exchange.py
 
-# Prepare the annotations by using the [createTrainIdLabelImgs.py](https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/preparation/createTrainIdLabelImgs.py)
+# Prepare the annotations 
 python createTrainIdLabelImgs.py
 
 # Create the mapping lists for the data
