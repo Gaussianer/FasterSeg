@@ -72,15 +72,20 @@ sudo nvidia-docker run --rm --gpus all -it -p 6006:6006 fasterseg:latest
 
 ### 0. Prepare the dataset
 * Your dataset should consist of annotations and raw images. For example, we have included two raw images and the corresponding annotations for training, validation and test data in the repository. (See `dataset/annotations/*` for the annotations or `dataset/original_images/*` for the raw images). Split your dataset into the folders train, val and test and place them there. (The example dataset used here comes from the cityscapes dataset, see [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1))
+* We use synthetic data for this purpose. We load this data from a repository and prepare it. For this we use the following commands:
+```bash
+cd home/FasterSeg/dataset
 
-* Prepare the annotations by using the [createTrainIdLabelImgs.py](https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/preparation/createTrainIdLabelImgs.py) 
-```bash
-cd home/FasterSeg/dataset
+# Clean up the directories so that the example data no longer exists.
+python clean_up_datasets.py
+
+# Load the new dataset and split it.
+python pull_data_exchange.py
+
+# Prepare the annotations by using the [createTrainIdLabelImgs.py](https://github.com/mcordts/cityscapesScripts/blob/master/cityscapesscripts/preparation/createTrainIdLabelImgs.py)
 python createTrainIdLabelImgs.py
-```
-* Create the mapping lists for the training data:
-```bash
-cd home/FasterSeg/dataset
+
+# Create the mapping lists for the data
 python create_mapping_lists.py
 ```
 
