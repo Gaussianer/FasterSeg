@@ -71,7 +71,14 @@ sudo docker run --rm --gpus all -it -p 6006:6006 fasterseg:latest
 * You can monitor the whole process in the Tensorboard.
 
 ### 0. Prepare the dataset
-* Your dataset should consist of annotations and raw images. For example, we have included two raw images and the corresponding annotations for training, validation and test data in the repository. (See `dataset/annotations/*` for the annotations or `dataset/original_images/*` for the raw images). Split your dataset into the folders train, val and test and place them there. (The example dataset used here comes from the cityscapes dataset, see [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1))
+* If you only want to test the setup, training data is already available. To do this, execute the following commands and ignore the following commands regarding data preparation:
+```bash
+cd home/FasterSeg/dataset
+
+# Prepare the annotations 
+python createTrainIdLabelImgs.py
+```
+* If you want to train with custom data, your data set should consist of annotations and raw images. For example, we have included two raw images and the corresponding annotations for training, validation and test data in the repository. (See `dataset/annotations/*` for the annotations or `dataset/original_images/*` for the raw images). Split your dataset into the folders train, val and test and place them there. (The example dataset used here comes from the cityscapes dataset, see [leftImg8bit_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=3) and [gtFine_trainvaltest.zip](https://www.cityscapes-dataset.com/file-handling/?packageID=1))
 * We use synthetic data for this purpose. We load this data from a repository and prepare it. For this we use the following commands:
 ```bash
 cd home/FasterSeg/dataset
