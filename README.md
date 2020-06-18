@@ -71,7 +71,7 @@ sudo docker run --rm --gpus all -it -p 6006:6006 fasterseg:latest
 * You can monitor the whole process in the Tensorboard.
 
 ### 0. Prepare the dataset
-* If you only want to test the setup, training data is already available. To do this, execute the following commands and ignore the following commands regarding data preparation. Then jump to 1. Search
+* If you only want to test the setup, training data is already available. To do this, execute the following commands and ignore the following commands regarding data preparation. Then jump to [pretrain the supernet](https://github.com/Gaussianer/FasterSeg#11-pretrain-the-supernet) &rarr; [1. Search](https://github.com/Gaussianer/FasterSeg#1-search).
 ```bash
 cd home/FasterSeg/dataset
 
