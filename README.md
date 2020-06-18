@@ -67,11 +67,11 @@ sudo docker run --rm --gpus all -it -p 6006:6006 fasterseg:latest
 > Note: To execute the same instance of the container at a later time, you can execute the following command: `sudo docker exec -it <Container ID> bash`
   
 ## Usage
-* **Work flow: [pretrain the supernet](https://github.com/chenwydj/FasterSeg#11-pretrain-the-supernet) &rarr; [search the archtecture](https://github.com/chenwydj/FasterSeg#12-search-the-architecture) &rarr; [train the teacher](https://github.com/chenwydj/FasterSeg#21-train-the-teacher-network) &rarr; [train the student](https://github.com/chenwydj/FasterSeg#22-train-the-student-network-fasterseg).**
+* **Work flow: [pretrain the supernet](https://github.com/Gaussianer/FasterSeg#11-pretrain-the-supernet) &rarr; [search the archtecture](https://github.com/Gaussianer/FasterSeg#12-search-the-architecture) &rarr; [train the teacher](https://github.com/Gaussianer/FasterSeg#21-train-the-teacher-network) &rarr; [train the student](https://github.com/chenwydj/FasterSeg#22-train-the-student-network-fasterseg).**
 * You can monitor the whole process in the Tensorboard.
 
 ### 0. Prepare the dataset
-* If you only want to test the setup, training data is already available. To do this, execute the following commands and ignore the following commands regarding data preparation:
+* If you only want to test the setup, training data is already available. To do this, execute the following commands and ignore the following commands regarding data preparation. Then jump to 1. Search
 ```bash
 cd home/FasterSeg/dataset
 
@@ -204,8 +204,8 @@ We support generating prediction files (masks as images) during training.
 ### 5. Latency
 
 #### 5.0 Latency measurement tools
-* If you have successfully installed [TensorRT](https://github.com/chenwydj/FasterSeg#installation), you will automatically use TensorRT for the following latency tests (see [function](https://github.com/chenwydj/FasterSeg/blob/master/tools/utils/darts_utils.py#L167) here).
-* Otherwise you will be switched to use Pytorch for the latency tests  (see [function](https://github.com/chenwydj/FasterSeg/blob/master/tools/utils/darts_utils.py#L184) here).
+* If you have successfully installed [TensorRT](https://github.com/Gaussianer/FasterSeg#installation), you will automatically use TensorRT for the following latency tests (see [function](https://github.com/Gaussianer/FasterSeg/blob/master/tools/utils/darts_utils.py#L167) here).
+* Otherwise you will be switched to use Pytorch for the latency tests  (see [function](https://github.com/Gaussianer/FasterSeg/blob/master/tools/utils/darts_utils.py#L184) here).
 
 #### 5.1 Measure the latency of the FasterSeg
 * Run the script:
