@@ -95,13 +95,7 @@ python createTrainIdLabelImgs.py
 # Create the mapping lists for the data
 python create_mapping_lists.py
 ```
-If you only want to test the setup, training data is already available. Execute the following commands for this:
-```bash
-cd home/FasterSeg/dataset
 
-# Prepare the annotations 
-python createTrainIdLabelImgs.py
-```
 ### 1. Search
 ```bash
 cd /home/FasterSeg/search
