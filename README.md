@@ -102,7 +102,6 @@ cd /home/FasterSeg/search
 ```
 #### 1.1 Pretrain the supernet
 We first pretrain the supernet without updating the architecture parameter for 20 epochs.
-* Set `C.pretrain = True` in `config_search.py`.
 * Start the pretrain process:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python train_search.py
