@@ -1,7 +1,7 @@
 # How to train FasterSeg for custom objects
 ## 
 
-In this repository we will show you how to train FasterSeg with custom data. But first we will introduce FasterSeg. We will then use this repository to show you a way to train FasterSeg with custom data for your purpose. 
+In this repository we will show you how to train FasterSeg with custom data. But first we will introduce FasterSeg. We will then show you how to install the necessary dependencies so that you can train FasterSeg with a docker container. Based on this, we'll show you how to use this repository to train FasterSeg with custom data for your purposes.
 
 ## FasterSeg 
 ### FasterSeg: Searching for Faster Real-time Semantic Segmentation [[PDF](https://arxiv.org/pdf/1912.10917.pdf)]
