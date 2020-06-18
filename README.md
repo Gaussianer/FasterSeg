@@ -62,7 +62,7 @@ sudo docker build -t fasterseg:latest -f Dockerfile .
 ```
 * Run the container
 ```bash
-sudo nvidia-docker run --rm --gpus all -it -p 6006:6006 fasterseg:latest
+sudo docker run --rm --gpus all -it -p 6006:6006 fasterseg:latest
 ```
 > Note: To execute the same instance of the container at a later time, you can execute the following command: `sudo docker exec -it <Container ID> bash`
   
