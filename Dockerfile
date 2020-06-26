@@ -156,11 +156,10 @@ RUN /bin/bash -c "source ~/.bashrc" && \
     python -m pip install tensorrt-5.1.5.0-cp36-none-linux_x86_64.whl
 
 # ==================================================================
-# DOWNLOAD FASTERSEG-REPOSITORY && INSTALL REQUIREMENTS
+# DOWNLOAD FASTERSEG-REPOSITORY 
 # ------------------------------------------------------------------
 
 RUN cd /home/ && git clone https://github.com/Gaussianer/FasterSeg.git
-#RUN cd /home/FasterSeg/ && pip install -r requirements.txt
 
 # ==================================================================
 # CONFIG & CLEANUP
