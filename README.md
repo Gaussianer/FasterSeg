@@ -1,7 +1,7 @@
 # How to train FasterSeg for custom objects
 ## 
 
-In this repository we will show you how to train FasterSeg with custom data. But first we will introduce FasterSeg. We will then show you how to install the necessary dependencies so that you can train FasterSeg with a docker container. Based on this, we'll show you how to use this repository to train FasterSeg with custom data for your purposes.
+In this repository we will show you how to train FasterSeg with custom data. But first we will introduce FasterSeg. We will then show you how to install the necessary dependencies so that you can train FasterSeg with a container. Based on this, we'll show you how to use this repository to train FasterSeg with custom data for your purposes.
 
 ## FasterSeg 
 ### FasterSeg: Searching for Faster Real-time Semantic Segmentation [[PDF](https://arxiv.org/pdf/1912.10917.pdf)]
@@ -48,6 +48,7 @@ This repository has been tested on GTX 1080Ti. Configurations (e.g batch size, i
 
 ## Installation
 * Install [Docker and NVIDIA container runtime](https://www.celantur.com/blog/run-cuda-in-docker-on-linux/) what is needed to use a preconfigured training environment.
+* Or if Docker is not a solution for you, we also offer a solution using Podman. [Here](https://github.com/Gaussianer/Podman---Run-Rootless-GPU-Container) you can find the setup for a Rootless GPU Container solution using Podman. Since Docker and Podman use the same commands, replace "sudo docker" with "podman" for each docker command in this guide.
 * Clone this repo:
 ```bash
 cd path/where/to/store/the/repository
