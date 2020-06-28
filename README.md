@@ -48,7 +48,7 @@ This repository has been tested on GTX 1080Ti. Configurations (e.g batch size, i
 
 ## Installation
 * Install [Docker and NVIDIA container runtime](https://www.celantur.com/blog/run-cuda-in-docker-on-linux/) what is needed to use a preconfigured training environment.
-* Or if Docker is not a solution for you, we also offer a solution using Podman. [Here](https://github.com/Gaussianer/Podman---Run-Rootless-GPU-Container) you can find the setup for a rootless GPU container solution using Podman. Since Docker and Podman use the same commands, replace "sudo docker" with "podman" for each docker command in this guide.
+* Or if Docker is not a solution for you, we also offer a solution using Podman. [Here](https://github.com/Gaussianer/Podman---Run-Rootless-GPU-Container) you can find the setup for a rootless GPU container solution using Podman. Since Docker and Podman use the same commands, replace "sudo docker" with "podman" for each docker command in this guide. We also provide an image for this on [DockerHub](https://hub.docker.com/r/gaussianer/fasterseg).
 * Clone this repo:
 ```bash
 cd path/where/to/store/the/repository
