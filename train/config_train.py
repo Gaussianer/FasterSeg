@@ -41,7 +41,7 @@ def add_path(path):
 add_path(osp.join(C.root_dir, 'tools'))
 
 """Image Config"""
-C.num_classes = 19 # TODO
+C.num_classes = 3 # TODO
 C.background = -1
 C.image_mean = np.array([0.485, 0.456, 0.406])
 C.image_std = np.array([0.229, 0.224, 0.225])
@@ -76,7 +76,7 @@ C.eval_width = 2048
 
 C.layers = 16
 """ Train Config """
-C.mode = "student" # "teacher" or "student"
+C.mode = "teacher" # "teacher" or "student" TODO
 if C.mode == "teacher":
     ##### train teacher model only ####################################
     C.arch_idx = [0] # 0 for teacher
@@ -108,4 +108,4 @@ elif C.mode == "student":
 ########################################
 C.is_test = False # if True, prediction files for the test set will be generated
 C.is_eval = False # if True, the train.py will only do evaluation for once
-C.eval_path = "fasterseg" # path to pretrained directory to be evaluated # TODO
+C.eval_path = "fasterseg" # path to pretrained directory to be evaluated 

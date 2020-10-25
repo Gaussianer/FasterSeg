@@ -7,8 +7,56 @@ from random import shuffle
 
 import torch.utils.data as data
 
+#own imports
+import os
+import csv
+from collections import namedtuple
+
 
 class BaseDataset(data.Dataset):
+
+    #*************calss mebers*************************
+    isCustomData = False
+    labels=[]
+    trans_labels=[]
+
+    # a label and all meta information
+    Label = namedtuple( 'Label' , [
+
+        'name'        , # The identifier of this label, e.g. 'car', 'person', ... .
+                        # We use them to uniquely name a class
+
+        'id'          , # An integer ID that is associated with this label.
+                        # The IDs are used to represent the label in ground truth images
+                        # An ID of -1 means that this label does not have an ID and thus
+                        # is ignored when creating ground truth images (e.g. license plate).
+                        # Do not modify these IDs, since exactly these IDs are expected by the
+                        # evaluation server.
+
+        'trainId'     , # Feel free to modify these IDs as suitable for your method. Then create
+                        # ground truth images with train IDs, using the tools provided in the
+                        # 'preparation' folder. However, make sure to validate or submit results
+                        # to our evaluation server using the regular IDs above!
+                        # For trainIds, multiple labels might have the same ID. Then, these labels
+                        # are mapped to the same class in the ground truth images. For the inverse
+                        # mapping, we use the label that is defined first in the list below.
+                        # For example, mapping all void-type classes to the same ID in training,
+                        # might make sense for some approaches.
+                        # Max value is 255!
+
+        'category'    , # The name of the category that this label belongs to
+
+        'categoryId'  , # The ID of this category. Used to create ground truth images
+                        # on category level.
+
+        'hasInstances', # Whether this label distinguishes between single instances or not
+
+        'ignoreInEval', # Whether pixels having this class as ground truth label are ignored
+                        # during evaluations or not
+
+        'color'       , # The color of this label
+        ] )
+
     def __init__(self, setting, split_name, preprocess=None, file_length=None):
         super(BaseDataset, self).__init__()
         self._split_name = split_name
@@ -24,6 +72,15 @@ class BaseDataset(data.Dataset):
         print("Found %d images"%len(self._file_names))
         self._file_length = file_length
         self.preprocess = preprocess
+
+        self.readEnvVar() #Read CUSTOMDATA from environment
+        self.Labels=self.readInLabels() #read In customized labels
+        
+        #read In trans_labels
+        if self.isCustomData==True:
+            self.trans_labels=self.pickTransLabels()
+        else:
+            self.trans_labels= [7, 8, 11, 12, 13, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33]
 
     def __len__(self):
         if self._file_length is not None:
@@ -144,12 +201,99 @@ class BaseDataset(data.Dataset):
         return img
 
     @classmethod
-    def get_class_colors(*args):
+    def s(*args):
         raise NotImplementedError
 
     @classmethod
     def get_class_names(*args):
         raise NotImplementedError
+
+    #convert string to bool 
+    @classmethod
+    def to_bool(cls, value):
+        if str(value).lower() in ("yes", "y", "true",  "t", "1"): 
+            return True
+        if str(value).lower() in ("no",  "n", "false", "f", "0", "none"):
+            return False
+        raise Exception('Invalid value for boolean conversion: ' + str(value))
+
+    #read in EnvironmentVar and store value in class member 
+    @classmethod
+    def readEnvVar(cls):
+        custom = True
+        if 'CUSTOMDATA' in os.environ:
+            custom = os.environ['CUSTOMDATA'] 
+        else:
+            custom = False
+        cls.isCustomData = cls.to_bool(custom)
+    
+    #--------------------------------------------------------------------------------
+    # Read in the customized labels from the csv file 
+    #--------------------------------------------------------------------------------
+    @classmethod
+    def readInLabels(cls):
+
+        # Where to look for the datasets
+        if 'DATASET_PATH' in os.environ:
+            datasetPath = os.environ['DATASET_PATH']
+        else:
+            datasetPath = os.path.join(os.path.dirname(os.path.realpath(__file__)),'..','..')
+
+        #create empty array
+        cls.labels=[]
+
+        #check if labelDefinitions.csv exists
+        if os.path.exists(datasetPath+'/data_exchange/labelDefinitions.csv'):
+            # open labelDefinitions.csv
+            with open(datasetPath+'/data_exchange/labelDefinitions.csv', mode='r') as csv_file:
+                
+                csv_reader = csv.DictReader(csv_file)
+                
+                for row in csv_reader:
+                    cls.labels.append(cls.Label(row["name"], int(row["id"]), int(row["trainId"]), row["category"], int(row["catId"]), cls.to_bool(row["hasInstances"]), cls.to_bool(row["ignoreInEval"]), (int(row["color_r"]), int(row["color_g"]), int(row["color_b"]))))
+                    
+            #close labelDefinitions.csv
+            csv_file.close()
+        else:
+            print("labelDefinitions.csv does not exist")
+        
+        cls.labels.pop(0) #remove "unlabeled" row
+    
+    # pick the colors from the label tupel and store it as a list
+    @classmethod
+    def pickColor(cls):
+        
+        color=[]
+        
+        for l in cls.labels:
+            sub_color=[]
+            for c in range(0, 3):
+                sub_color.append(l[7][c])
+            color.append(sub_color)
+
+        return color
+
+    #pick the names from the label tupel and return it as a list
+    @classmethod
+    def pickNames(cls):
+        
+        names=[]
+        
+        for l in cls.labels:
+            names.append(l[0])
+        
+        return names
+
+    #pick the Ids of the labels and return it as a list 
+    @classmethod
+    def pickTransLabels(cls):
+        translabels=[]
+        for l in cls.labels:
+            translabels.append(l[1])
+        
+        return translabels
+
+
 
 
 if __name__ == "__main__":
