@@ -27,6 +27,7 @@ import time, shutil, re
 #This is the mainfunction of the script
 #############################################################
 def main():
+    use_only_synthetic_data=True #if False: use only real data for testing
 
     # Where to look for the datasets
     if 'DATASET_PATH' in os.environ:
@@ -38,51 +39,95 @@ def main():
     clone("KHeap25", "data_exchange", datasetPath)
 
     #generate lists with the filenames 
-    search_annotations = os.path.join( datasetPath+ "/data_exchange/annotations" , "*_polygons.json" ) 
-    filesAnnotations = glob.glob(search_annotations)
-    filesAnnotations.sort()
+    if use_only_synthetic_data==True:
+        annotationFileList=generateFilenamesList(datasetPath,"/data_exchange/synthetic_data/annotations","_polygons.json")
+        rawFileList=generateFilenamesList(datasetPath,"/data_exchange/synthetic_data/original_images","_raw.png")
 
-    search_raw = os.path.join( datasetPath+ "/data_exchange/original_images" , "*_raw.png" ) 
-    filesRaw = glob.glob(search_raw)
-    filesRaw.sort()
+        #split it up
+        train_per = 60
+        val_per = 20
+        test_per = 20
+        num_raw = countFiles(datasetPath+"/data_exchange/synthetic_data/original_images")
 
-    #split it up
-    train_per = 60
-    val_per = 20
-    test_per = 20
+        num_train = round(num_raw*(train_per/100), 0)
+        num_val = round(num_raw*(val_per/100), 0)
+        num_test = round(num_raw*(test_per/100), 0)
 
-    num_raw = countFiles(datasetPath+"/data_exchange/original_images")
-    #num_poly = countFiles(datasetPath+"/data_exchange/annotations")
-
-    num_train = round(num_raw*(train_per/100), 0)
-    num_val = round(num_raw*(val_per/100), 0)
-    num_test = round(num_raw*(test_per/100), 0)
-
-    # move the raw files (_raw.png) to the right directory
-    count = 0
-    for f in filesRaw:
-        if count < num_train:
-            moveFile(f, datasetPath+"/original_images/train")
-        elif count < num_train+num_val:
-            moveFile(f, datasetPath+"/original_images/val")
-        elif count < num_train+num_val+num_test:
-            moveFile(f, datasetPath+"/original_images/test")
-        
-        count = count +1
-
-    #move the annotation files (polygons.json) to the right directory
-    count = 0
-    for f in filesAnnotations:
-        if count < num_train:
-            moveFile(f, datasetPath+"/annotations/train")
-        elif count < num_train+num_val:
-            moveFile(f, datasetPath+"/annotations/val")
-        elif count < num_train+num_val+num_test:
-            moveFile(f, datasetPath+"/annotations/test")
-        
-        count = count +1
-
+        moveFiles(num_train, num_val, num_test, "original_images", datasetPath, rawFileList)
+        moveFiles(num_train, num_val, num_test, "annotations", datasetPath, annotationFileList)
     
+    else:
+        annotationFileList=generateFilenamesList(datasetPath,"/data_exchange/synthetic_data/annotations","_polygons.json")
+        rawFileList=generateFilenamesList(datasetPath,"/data_exchange/synthetic_data/original_images","_raw.png")
+
+        realAnnotationFileList=generateFilenamesList(datasetPath,"/data_exchange/real_data/annotations","_polygons.json")
+        realRawFileList=generateFilenamesList(datasetPath,"/data_exchange/real_data/original_images","_raw.png")
+
+        #split it up
+        train_per = 80
+        val_per = 20
+        test_per = 0 #use only real data for testing
+        num_raw = countFiles(datasetPath+"/data_exchange/synthetic_data/original_images")
+
+        num_train = round(num_raw*(train_per/100), 0)
+        num_val = round(num_raw*(val_per/100), 0)
+        num_test = round(num_raw*(test_per/100), 0)
+
+        moveFiles(num_train, num_val, num_test, "original_images", datasetPath, rawFileList, realRawFileList)
+        moveFiles(num_train, num_val, num_test, "annotations", datasetPath, annotationFileList, realAnnotationFileList)
+
+        movedRealAnnotationFileList=generateFilenamesList(datasetPath, "/annotations/test","_polygons.json")
+        movedRealRawFileList=generateFilenamesList(datasetPath, "/original_images/test","_raw.png")
+
+        renameFilesInList(movedRealAnnotationFileList, "real_")
+        renameFilesInList(movedRealRawFileList, "real_")
+
+
+
+def renameFilesInList(fileList, prefix):
+    
+    for file in fileList:
+
+        splittedPath=file.split('/')
+        
+        newName=prefix+splittedPath[-1]
+        splittedPath.pop()
+        splittedPath.append(newName)
+        
+        os.rename(file, "/".join(splittedPath)) 
+
+
+def generateFilenamesList(dataset_path, sub_dir, file_suffix):
+    search_files = os.path.join(dataset_path+sub_dir,"*"+file_suffix) 
+    filelist = glob.glob(search_files)
+    filelist.sort()
+    return filelist
+
+def moveFiles(num_train, num_val, num_test, prefix_directory, dataset_path, filenames_list, real_data_filenames_list=False):
+    
+    count = 0
+    if real_data_filenames_list==False:
+        
+        for f in filenames_list:
+            if count < num_train:
+                moveFile(f, dataset_path+"/"+prefix_directory+"/train")
+            elif count < num_train+num_val:
+                moveFile(f,dataset_path+"/"+prefix_directory+"/val")
+            elif count < num_train+num_val+num_test:
+                moveFile(f, dataset_path+"/"+prefix_directory+"/test")
+            
+            count = count +1
+    else:
+        for f in filenames_list:
+            if count < num_train:
+                moveFile(f, dataset_path+"/"+prefix_directory+"/train")
+            elif count < num_train+num_val:
+                moveFile(f,dataset_path+"/"+prefix_directory+"/val")
+            count = count +1
+
+        for f in real_data_filenames_list:
+            moveFile(f, dataset_path+"/"+prefix_directory+"/test")
+          
 #Func: clone()################################################
 #This function clones a github repository into a specified
 #location.
@@ -95,7 +140,6 @@ def clone(git_user, repo, location):
     try:
         os.chdir(location)
         os.system('git clone https://github.com/'+ git_user + "/"+ repo + ".git")
-        
     except:
         print("git clone faild")
 
