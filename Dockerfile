@@ -8,11 +8,12 @@
 FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu16.04
 
 # ==================================================================
-# ENVIRONMENT VARIABLES 
+# ENVIRONMENT VARIABLES
 # ------------------------------------------------------------------
 
 ENV LANG C.UTF-8
 ENV DATASET_PATH=/home/FasterSeg/dataset
+ENV TENSORRT=TensorRT-5.1.5.0.Ubuntu-16.04.5.x86_64-gnu.cuda-10.1.cudnn7.5.tar.gz
 
 # ==================================================================
 # TOOLS
@@ -46,7 +47,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
         software-properties-common \
         && \
-    add-apt-repository ppa:deadsnakes/ppa && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
         python3.6 \
@@ -74,9 +75,9 @@ RUN DEBIAN_FRONTEND=noninteractive python -m pip --no-cache-dir install --upgrad
         scipy==1.1.0 \
         onnx==1.5.0 \
         tqdm==4.25.0 \
-	scikit-learn \
+        scikit-learn \
         Cython \
-	opencv-python==3.4.5.20 \
+        opencv-python==3.4.5.20 \
         matplotlib==3.0.0
 
 # ==================================================================
@@ -127,10 +128,10 @@ RUN cd /tmp && \
         /tmp/torchvision-0.3.0-cp36-cp36m-linux_x86_64.whl
 
 
-RUN python -m pip --no-cache-dir install --upgrade  \   
-        tensorflow==1.9.0 \ 
-	tensorboardX==1.6 \    
-        thop 
+RUN python -m pip --no-cache-dir install --upgrade  \
+        tensorflow==1.9.0 \
+        tensorboardX==1.6 \
+        thop
 
 # ==================================================================
 # PYCUDA
@@ -145,8 +146,9 @@ RUN python -m pip --no-cache-dir install \
 # https://docs.nvidia.com/deeplearning/sdk/tensorrt-archived/tensorrt-515/tensorrt-install-guide/index.html
 # ------------------------------------------------------------------
 
-COPY /TensorRT-5.1.5.0.Ubuntu-16.04.5.x86_64-gnu.cuda-10.1.cudnn7.5.tar.gz /
-RUN tar -xzvf TensorRT-5.1.5.0.Ubuntu-16.04.5.x86_64-gnu.cuda-10.1.cudnn7.5.tar.gz
+#COPY /TensorRT-5.1.5.0.Ubuntu-16.04.5.x86_64-gnu.cuda-10.1.cudnn7.5.tar.gz /
+COPY /$TENSORRT /
+RUN tar -xzvf $TENSORRT
 
 RUN echo 'export LD_LIBRARY_PATH=/TensorRT-5.1.5.0/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
 RUN /bin/bash -c "source ~/.bashrc" && \
@@ -154,11 +156,10 @@ RUN /bin/bash -c "source ~/.bashrc" && \
     python -m pip install tensorrt-5.1.5.0-cp36-none-linux_x86_64.whl
 
 # ==================================================================
-# DOWNLOAD FASTERSEG-REPOSITORY && INSTALL REQUIREMENTS
+# DOWNLOAD FASTERSEG-REPOSITORY 
 # ------------------------------------------------------------------
 
 RUN cd /home/ && git clone https://github.com/Gaussianer/FasterSeg.git
-#RUN cd /home/FasterSeg/ && pip install -r requirements.txt
 
 # ==================================================================
 # CONFIG & CLEANUP
@@ -171,4 +172,4 @@ RUN ldconfig && \
 
 WORKDIR /home/FasterSeg
 
-EXPOSE 8000 6006
+EXPOSE 6006 6006

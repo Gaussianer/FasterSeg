@@ -25,6 +25,19 @@ def main():
     else:
         datasetPath = os.path.join(os.path.dirname(os.path.realpath(__file__)),'..','..')
 
+    #delet the old mapping_lists
+
+    if os.path.exists(datasetPath+"/train_mapping_list.txt"):
+        os.remove(datasetPath+"/train_mapping_list.txt")
+
+    if os.path.exists(datasetPath+"/val_mapping_list.txt"):
+        os.remove(datasetPath+"/val_mapping_list.txt")    
+
+    if os.path.exists(datasetPath+"/test_mapping_list.txt"):
+        os.remove(datasetPath+"/test_mapping_list.txt")
+
+    if os.path.exists(datasetPath+"/train_val_mapping_list.txt"):
+        os.remove(datasetPath+"/train_val_mapping_list.txt")
     
     # how to search for the pathnames
     # all *_labelTrainIds.png files in the annotations folder
