@@ -1,2 +1,2 @@
-original_images/test/bonn_000000_000019_leftImg8bit.png annotations/test/bonn_000000_000019_gtFine_labelTrainIds.png
-original_images/test/bonn_000001_000019_leftImg8bit.png annotations/test/bonn_000001_000019_gtFine_labelTrainIds.png
+original_images/test/route_00001_00009_raw.png annotations/test/route_00001_00009_labelTrainIds.png
+original_images/test/route_00001_00010_raw.png annotations/test/route_00001_00010_labelTrainIds.png
