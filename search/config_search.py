@@ -76,8 +76,8 @@ C.arch_weight_decay = 0
 C.layers = 16
 C.branch = 2
 
-C.pretrain = True
-# C.pretrain = "search-pretrain-256x512_F12.L16_batch3-20200101-012345"
+C.pretrain = True # TODO
+# C.pretrain = "search-pretrain-256x512_F12.L16_batch3-20200101-012345" # TODO
 ########################################
 C.prun_modes = ['max', 'arch_ratio',]
 C.Fch = 12
@@ -87,20 +87,20 @@ C.FPS_min = [0, 155.]
 C.FPS_max = [0, 175.]
 if C.pretrain == True:
     C.batch_size = 3
-    C.niters_per_epoch = max(C.num_train_imgs // 2 // C.batch_size, 400)
+    C.niters_per_epoch = max(C.num_train_imgs // 2 // C.batch_size, 400) # TODO 
     C.lr = 2e-2
     C.latency_weight = [0, 0]
     C.image_height = 256 # this size is after down_sampling
     C.image_width = 256*2
-    C.nepochs = 20
+    C.nepochs = 20 # TODO
     C.save = "pretrain-%dx%d_F%d.L%d_batch%d"%(C.image_height, C.image_width, C.Fch, C.layers, C.batch_size)
 else:
     C.batch_size = 2
-    C.niters_per_epoch = max(C.num_train_imgs // 2 // C.batch_size, 400)
+    C.niters_per_epoch = max(C.num_train_imgs // 2 // C.batch_size, 400) # TODO
     C.latency_weight = [0, 1e-2,]
     C.image_height = 224 # this size is after down_sampling
     C.image_width = 224*2
-    C.nepochs = 30
+    C.nepochs = 30 # TODO
     C.save = "%dx%d_F%d.L%d_batch%d"%(C.image_height, C.image_width, C.Fch, C.layers, C.batch_size)
 ########################################
 assert len(C.latency_weight) == len(C.stem_head_width) and len(C.stem_head_width) == len(C.FPS_min) and len(C.FPS_min) == len(C.FPS_max)
