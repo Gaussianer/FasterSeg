@@ -136,11 +136,11 @@ def main():
 
         evaluator = SegEvaluator(Cityscapes(data_setting, 'val', None), config.num_classes, config.image_mean,
                                  config.image_std, model, config.eval_scale_array, config.eval_flip, 0, out_idx=0, config=config,
-                                 verbose=False, save_path=None, show_image=False, show_prediction=False)
+                                 verbose=False, save_path=None, show_image=False, show_prediction=False) # TODO
         evaluators.append(evaluator)
         tester = SegTester(Cityscapes(data_setting, 'test', None), config.num_classes, config.image_mean,
                                  config.image_std, model, config.eval_scale_array, config.eval_flip, 0, out_idx=0, config=config,
-                                 verbose=False, save_path=None, show_prediction=False)
+                                 verbose=False, save_path=None, show_prediction=False) # TODO
         testers.append(tester)
 
         # Optimizer ###################################
