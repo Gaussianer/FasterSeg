@@ -59,8 +59,8 @@ C.bn_momentum = 0.1
 C.lr = 0.01
 C.momentum = 0.9
 C.weight_decay = 5e-4
-C.nepochs = 600
-C.niters_per_epoch = 1000
+C.nepochs = 600 # TODO
+C.niters_per_epoch = 1000 # TODO
 C.num_workers = 6
 C.train_scale_array = [0.75, 1, 1.25]
 
@@ -75,8 +75,8 @@ C.eval_width = 2048
 
 
 C.layers = 16
-""" Train Config """
-C.mode = "teacher" # "teacher" or "student" TODO
+""" Train Config """ # TODO
+C.mode = "teacher" # "teacher" or "student" 
 if C.mode == "teacher":
     ##### train teacher model only ####################################
     C.arch_idx = [0] # 0 for teacher
@@ -106,6 +106,6 @@ elif C.mode == "student":
     C.save = "%dx%d_student_batch%d"%(C.image_height, C.image_width, C.batch_size)
 
 ########################################
-C.is_test = False # if True, prediction files for the test set will be generated
-C.is_eval = False # if True, the train.py will only do evaluation for once
+C.is_test = False # if True, prediction files for the test set will be generated # TODO
+C.is_eval = False # if True, the train.py will only do evaluation for once # TODO
 C.eval_path = "fasterseg" # path to pretrained directory to be evaluated 
