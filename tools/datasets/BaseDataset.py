@@ -257,7 +257,6 @@ class BaseDataset(data.Dataset):
         else:
             print("labelDefinitions.csv does not exist")
         
-        cls.labels.pop(0) #remove "unlabeled" row
     
     # pick the colors from the label tupel and store it as a list
     @classmethod
